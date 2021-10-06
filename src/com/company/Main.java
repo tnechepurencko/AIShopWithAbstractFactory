@@ -50,7 +50,7 @@ class Admin extends Account {
 
         while (!over) {
             System.out.println("Choose an option: 1-add the product, " +
-                    "2-remove the product, 3-finish work");
+                    "2-remove the product, 3-get products, 4-finish work");
             int option = in.nextInt();
 
             switch (option) {
@@ -112,6 +112,9 @@ class Admin extends Account {
                     System.out.println("Thank you!");
                 }
                 case 3 -> {
+                    aiShop.printProducts();
+                }
+                case 4 -> {
                     System.out.println("Work is finished. Thank you!");
                     over = true;
                 }
@@ -538,6 +541,14 @@ class AIShop {
         }
     }
 
+    public void printProducts() {
+        System.out.println("Products:");
+        for (Product product : this.products) {
+            System.out.println("id: " + product.getId() + "\ttype: " + product.getType() +
+                    "\tprice: " + product.getPrice());
+        }
+    }
+
     /**
      * @param keyword : the keyword
      * @return : list of products with this keyword
@@ -624,5 +635,6 @@ class AIShop {
 public class Main {
     public static void main(String[] args) {
         AIShop ourAIShop = new AIShop();
+
     }
 }
