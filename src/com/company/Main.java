@@ -4,14 +4,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.Scanner;
 
-class Random {
-    static Random random = new Random();
-
-    public static int getRandInt(int limit) {
-        return random.getRandInt(limit);
-    }
-}
-
 class Account {
     private String login;
     private String password;
@@ -45,23 +37,24 @@ class Admin extends Account {
         super(login, password);
     }
 
-    public void productsManagement(User user, AIShop aiShop) {
+    public void productsManagement(AIShop aiShop) {
+        System.out.println("Welcome to the products management!!!!!!!!!!!!!");
         boolean over = false;
 
         while (!over) {
             System.out.println("Choose an option: 1-add the product, " +
                     "2-remove the product, 3-get products, 4-finish work");
-            int option = in.nextInt();
+            int option = Integer.parseInt(in.nextLine());
 
             switch (option) {
                 case 1 -> {
                     Product product;
 
                     System.out.println("Choose a kind of the product: 1-food, 2-item");
-                    int kind = in.nextInt();
+                    int kind = Integer.parseInt(in.nextLine());
 
                     System.out.println("Choose a factory: 1-Italian factory, 2-French factory");
-                    int factory = in.nextInt();
+                    int factory = Integer.parseInt(in.nextLine());
 
                     switch (kind) {
                         case 1:
@@ -106,7 +99,7 @@ class Admin extends Account {
                 }
                 case 2 -> {
                     System.out.println("Enter the ID of the product, please:");
-                    int id = in.nextInt();
+                    int id = Integer.parseInt(in.nextLine());
 
                     aiShop.removeProduct(id);
                     System.out.println("Thank you!");
@@ -138,19 +131,20 @@ class User extends Account {
         super(login, password);
     }
 
-    public void orderAssembly(User user, AIShop aiShop) {
+    public void orderAssembly(AIShop aiShop) {
         boolean over = false;
 
         while (!over) {
             System.out.println("Choose an option: 1-search the product, 2-add the product to the cart " +
                     "3-remove an item from the cart, 4-Show the cart, 5-Clear the cart, 6-finish order assembly");
-            int option = in.nextInt();
+            int option = Integer.parseInt(in.nextLine());
 
             switch (option) {
                 case 1 -> {
                     System.out.println("Enter keywords of the product, please (id / kitchen / type " +
                             "/ color / print / origin):");
-                    String[] keywords = in.nextLine().split(" ");
+                    String keywordsLine = in.nextLine();;
+                    String[] keywords = keywordsLine.split(" ");
                     System.out.println("Thank you!");
 
                     List<Product> suggestion = aiShop.getItemsByKey(keywords[0]);
@@ -163,14 +157,14 @@ class User extends Account {
                     } else {
                         System.out.println("Search results:");
                         for (Product product : suggestion) {
-                            System.out.println("id: " + product.getId() + "\ttype: " + product.getType() +
-                                    "\tprice: " + product.getPrice());
+                            System.out.println("id: " + product.getId() + "; type: " + product.getType() +
+                                    "; price: " + product.getPrice());
                         }
                     }
                 }
                 case 2 -> {
                     System.out.println("Enter the id of the product, please");
-                    int id = in.nextInt();
+                    int id = Integer.parseInt(in.nextLine());
 
                     Product product = aiShop.findProductByID(id);
                     if (product != null) {
@@ -179,16 +173,16 @@ class User extends Account {
                 }
                 case 3 -> {
                     System.out.println("Enter the id of the product, please:");
-                    int id = in.nextInt();
+                    int id = Integer.parseInt(in.nextLine());
 
-                    user.removeFromCart(id);
+                    this.removeFromCart(id);
                     System.out.println("Thank you!");
                 }
                 case 4 -> {
                     System.out.println("Your cart:");
                     for (Product product : this.cart) {
-                        System.out.println("id: " + product.getId() + "\ttype: " + product.getType() +
-                                "\tprice: " + product.getPrice());
+                        System.out.println("id: " + product.getId() + "; type: " + product.getType() +
+                                "; price: " + product.getPrice());
                     }
                 }
                 case 5 -> {
@@ -199,12 +193,12 @@ class User extends Account {
                     List<Product> recs = aiShop.getRecommendations(this);
                     System.out.println("You may also like");
                     for (Product product : recs) {
-                        System.out.println("id: " + product.getId() + "\ttype: " + product.getType() +
-                                "\tprice: " + product.getPrice());
+                        System.out.println("id: " + product.getId() + "; type: " + product.getType() +
+                                "; price: " + product.getPrice());
                     }
 
                     System.out.println("Continue shopping? 1-yes, 2-no");
-                    int decision = in.nextInt();
+                    int decision = Integer.parseInt(in.nextLine());
                     if (decision == 1) {
                         continue;
                     }
@@ -333,7 +327,6 @@ class Food extends Product {
         super(type, price);
 
         this.id = idIterator;
-        idIterator++;
 
         this.type = type;
         this.price = price;
@@ -380,7 +373,6 @@ class Item extends Product {
         super(type, price);
 
         this.id = idIterator;
-        idIterator++;
 
         this.type = type;
         this.price = price;
@@ -428,7 +420,7 @@ class ItalianFactory implements AbstractFactory {
         String type = scanner.nextLine();
 
         System.out.println("Enter price of cloth");
-        double price = scanner.nextDouble();
+        double price = Double.parseDouble(scanner.next());
 
         System.out.println("Enter color of cloth");
         String color = scanner.nextLine();
@@ -449,7 +441,7 @@ class ItalianFactory implements AbstractFactory {
         String type = scanner.nextLine();
 
         System.out.println("Enter price of food");
-        double price = scanner.nextDouble();
+        double price = Double.parseDouble(scanner.next());
 
         return new Food(type, price, "Italian");
     }
@@ -468,7 +460,7 @@ class FrenchFactory implements AbstractFactory {
         String type = scanner.nextLine();
 
         System.out.println("Enter price of cloth");
-        double price = scanner.nextDouble();
+        double price = Double.parseDouble(scanner.next());
 
         System.out.println("Enter color of cloth");
         String color = scanner.nextLine();
@@ -489,7 +481,7 @@ class FrenchFactory implements AbstractFactory {
         String type = scanner.nextLine();
 
         System.out.println("Enter price of food");
-        double price = scanner.nextDouble();
+        double price = Double.parseDouble(scanner.next());
 
         return new Food(type, price, "French");
     }
@@ -544,8 +536,8 @@ class AIShop {
     public void printProducts() {
         System.out.println("Products:");
         for (Product product : this.products) {
-            System.out.println("id: " + product.getId() + "\ttype: " + product.getType() +
-                    "\tprice: " + product.getPrice());
+            System.out.println("id: " + product.getId() + "; type: " + product.getType() +
+                    "; price: " + product.getPrice());
         }
     }
 
@@ -583,8 +575,10 @@ class AIShop {
      * @return : the list of recommendations
      */
     public List<Product> getRecommendations(User user) {
+        Random random = new Random();
+
         Set<String> searchHistory = user.getSearchHistory();
-        int fromIndex = Random.getRandInt(searchHistory.size() - KEYWORDS_SUBSET_SIZE);
+        int fromIndex = random.nextInt(searchHistory.size() - KEYWORDS_SUBSET_SIZE);
         int toIndex = fromIndex + KEYWORDS_SUBSET_SIZE;
 
         List<String> keywords = new ArrayList<>(searchHistory).subList(fromIndex, toIndex);
@@ -609,7 +603,7 @@ class AIShop {
             boolean over = false;
             while (!over) {
                 System.out.println("Choose the way of payment: 1-Card, 2-Cash");
-                int wayOfPayment = in.nextInt();
+                int wayOfPayment = Integer.parseInt(in.nextLine());
 
                 switch (wayOfPayment) {
                     case 1 -> {
@@ -635,6 +629,13 @@ class AIShop {
 public class Main {
     public static void main(String[] args) {
         AIShop ourAIShop = new AIShop();
+        ourAIShop.fillTheListOfProducts();
+        ourAIShop.printProducts();
 
+//        Admin admin = new Admin("1111", "1111");
+//        admin.productsManagement(ourAIShop);
+
+        User user = new User("0000", "0000");
+        user.orderAssembly(ourAIShop);
     }
 }
