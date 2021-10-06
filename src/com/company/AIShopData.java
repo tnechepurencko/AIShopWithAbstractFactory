@@ -12,6 +12,32 @@ public class AIShopData {
 
     public AIShopData(AIShop aiShop) {
         this.aiShop = aiShop;
+        initialise();
+    }
+
+    public void programManagement() {
+        while (true) {
+            System.out.println("Welcome to the AI Shop system! Choose an option: 1-registration, 2-login, 3-exit");
+            int option = Integer.parseInt(scanner.nextLine());
+
+            switch(option) {
+                case 1 -> {
+                    Registration();
+                    return;
+                }
+                case 2 -> {
+                    LogIn();
+                    return;
+                }
+                case 3 -> {
+                    System.out.println("Thank you for visiting our AIShop!");
+                    return;
+                }
+                default -> {
+                    System.out.println("This option does not exist: try again");
+                }
+            }
+        }
     }
 
     public void initialise() {
@@ -42,45 +68,85 @@ public class AIShopData {
         boolean end = false;
         int option;
         while (!end) {
-            System.out.println("Choose type of your account: 1-Admin, 2-Customer");
+            System.out.println("Choose the type of your account: 1-Admin, 2-Customer, 3-return back");
             option = Integer.parseInt(scanner.nextLine());
-
-            System.out.println("Enter your login");
-            String login = scanner.nextLine();
-
-            System.out.println("Enter your password");
-            String password = scanner.nextLine();
 
             switch (option) {
                 case 1 -> {
+                    System.out.println("Enter your login");
+                    String login = scanner.nextLine();
+
                     if (containsLogin(admins, login)) {
+                        System.out.println("Enter your password");
+                        String password = scanner.nextLine();
+
                         if (findLogin(admins, login).getPassword().equals(password)) {
-                            ((Admin) findLogin(admins, login)).productsManagement(aiShop);
                             end = true;
+                            adminActionsMenu((Admin) findLogin(admins, login), aiShop);
                         } else System.out.println("Your password is incorrect");
                     } else {
                         System.out.println("This login does not exist");
                     }
                 }
-
                 case 2 -> {
+                    System.out.println("Enter your login");
+                    String login = scanner.nextLine();
+
                     if (containsLogin(users, login)) {
+                        System.out.println("Enter your password");
+                        String password = scanner.nextLine();
+
                         if (findLogin(users, login).getPassword().equals(password)) {
-                            User user = (User)findLogin(users, login);
-                            user.orderAssembly(aiShop);
                             end = true;
+                            userActionsMenu((User)findLogin(users, login), aiShop);
                         } else System.out.println("Your password is incorrect");
                     } else {
                         System.out.println("This login does not exist");
                     }
                 }
-
-                default -> {
-                    System.out.println("We do not have such option");
-                }
+                case 3 -> programManagement();
+                default -> System.out.println("We do not have such option");
             }
+        }
+    }
 
+    public void adminActionsMenu(Admin admin, AIShop aiShop) {
+        System.out.println("You have successfully logged in!");
 
+        boolean end = false;
+        while (!end) {
+            System.out.println("Choose an option, please: 1-log out, 2-manage the warehouse");
+            int option = Integer.parseInt(scanner.nextLine());
+
+            switch (option) {
+                case 1 -> {
+                    end = true;
+                    System.out.println("You have logged out successfully");
+                    programManagement();
+                }
+                case 2 -> admin.productsManagement(aiShop);
+                default -> System.out.println("We do not have such option");
+            }
+        }
+    }
+
+    public void userActionsMenu(User user, AIShop aiShop) {
+        System.out.println("You have successfully logged in!");
+
+        boolean end = false;
+        while (!end) {
+            System.out.println("Choose an option, please: 1-log out, 2-assembly an order");
+            int option = Integer.parseInt(scanner.nextLine());
+
+            switch (option) {
+                case 1 -> {
+                    end = true;
+                    System.out.println("You have logged out successfully");
+                    programManagement();
+                }
+                case 2 -> user.orderAssembly(aiShop);
+                default -> System.out.println("We do not have such option");
+            }
         }
     }
 

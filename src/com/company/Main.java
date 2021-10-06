@@ -8,8 +8,6 @@ public class Main {
 
         AIShopData data = new AIShopData(ourAIShop);
 
-        data.initialise();
-        data.Registration();
-        data.LogIn();
+        data.programManagement();
     }
 }

@@ -62,10 +62,14 @@ public class User extends Account {
                     System.out.println("Thank you!");
                 }
                 case 4 -> {
-                    System.out.println("Your cart:");
-                    for (Product product : this.cart) {
-                        System.out.println("id: " + product.getId() + "; type: " + product.getType() +
-                                "; price: " + product.getPrice());
+                    if (this.cart.size() == 0) {
+                        System.out.println("your cart is empty");
+                    } else {
+                        System.out.println("Your cart:");
+                        for (Product product : this.cart) {
+                            System.out.println("id: " + product.getId() + "; type: " + product.getType() +
+                                    "; price: " + product.getPrice());
+                        }
                     }
                 }
                 case 5 -> {
@@ -74,20 +78,24 @@ public class User extends Account {
                 }
                 case 6 -> {
                     List<Product> recs = aiShop.getRecommendations(this);
-                    System.out.println("You may also like");
-                    for (Product product : recs) {
-                        System.out.println("id: " + product.getId() + "; type: " + product.getType() +
-                                "; price: " + product.getPrice());
-                    }
+                    if (recs.size() != 0) {
+                        System.out.println("You may also like");
+                        for (Product product : recs) {
+                            System.out.println("id: " + product.getId() + "; type: " + product.getType() +
+                                    "; price: " + product.getPrice());
+                        }
 
-                    System.out.println("Continue shopping? 1-yes, 2-no");
-                    int decision = Integer.parseInt(in.nextLine());
-                    if (decision == 1) {
-                        continue;
+                        System.out.println("Continue shopping? 1-yes, 2-no");
+                        int decision = Integer.parseInt(in.nextLine());
+                        if (decision == 1) {
+                            continue;
+                        }
                     }
 
                     System.out.println("Order assembly is finished");
                     aiShop.payment(this);
+                    this.clearCart();
+
                     over = true;
                 }
                 default -> {
