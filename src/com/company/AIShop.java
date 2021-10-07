@@ -10,7 +10,7 @@ public class AIShop {
     private final static int KEYWORDS_SUBSET_SIZE = 5;
     private final static int RECOMMENDATIONS_SIZE = 5;
 
-    private List<Product> products = new ArrayList<>();
+    private final List<Product> products = new ArrayList<>();
 
     public void setFactory(AbstractFactory factory) {
         this.factory = factory;
@@ -33,6 +33,7 @@ public class AIShop {
 
     public void addProduct(Product product) {
         this.products.add(product);
+        System.out.println("The product has been added");
     }
 
     public void removeProduct(int id) {
@@ -53,8 +54,7 @@ public class AIShop {
     public void printProducts() {
         System.out.println("Products:");
         for (Product product : this.products) {
-            System.out.println("id: " + product.getId() + "; type: " + product.getType() +
-                    "; price: " + product.getPrice());
+            product.printProduct();
         }
     }
 
@@ -76,9 +76,9 @@ public class AIShop {
     }
 
     public Product findProductByID(int id) {
-        for (int i = 0; i < this.products.size(); i++) {
-            if (this.products.get(i).getId() == id) {
-                return this.products.get(i);
+        for (Product product : this.products) {
+            if (product.getId() == id) {
+                return product;
             }
         }
 
@@ -102,6 +102,9 @@ public class AIShop {
 
         int fromIndex = random.nextInt(Math.max(1, searchHistory.size() - KEYWORDS_SUBSET_SIZE));
         int toIndex = fromIndex + KEYWORDS_SUBSET_SIZE;
+        if (searchHistory.size() < 5) {
+            toIndex = searchHistory.size();
+        }
 
         List<String> keywords = new ArrayList<>(searchHistory).subList(fromIndex, toIndex);
         List<Product> recommendations =
@@ -120,13 +123,22 @@ public class AIShop {
      * @param user : the user
      */
     public void payment(User user) {
+        String[] input;
+        int wayOfPayment;
+
         if (user.calculateTotalPrice() > 0) {
             System.out.println("The total price: " + user.calculateTotalPrice());
 
             boolean over = false;
             while (!over) {
                 System.out.println("Choose the way of payment: 1-Card, 2-Cash");
-                int wayOfPayment = Integer.parseInt(in.nextLine());
+
+                input = in.nextLine().split(" ");
+                wayOfPayment = -1;
+
+                if (input.length == 1 && input[0].length() == 1 && 48 < input[0].charAt(0) && input[0].charAt(0) < 57) {
+                    wayOfPayment = Integer.parseInt(input[0]);
+                }
 
                 switch (wayOfPayment) {
                     case 1 -> {
@@ -137,9 +149,7 @@ public class AIShop {
                         System.out.println("You will pay for your order upon receiving");
                         over = true;
                     }
-                    default -> {
-                        System.out.println("We have no such option. Try again");
-                    }
+                    default -> System.out.println("We have no such option. Try again");
                 }
             }
             System.out.println("Thank you for choosing our shop!");

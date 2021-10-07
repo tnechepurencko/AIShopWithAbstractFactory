@@ -4,13 +4,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Item extends Product {
-    private int id;
-    private String type;
-    private double price;
-    private String color;
-    private String print;
+    private final int id;
+    private final double price;
+    private final String color;
+    private final String print;
     private String origin;
-    private Set<String> keywords = new HashSet<>();
+    private final Set<String> keywords = new HashSet<>();
+    private String style;
 
     /**
      * @param userKeyword : the keyword
@@ -20,13 +20,11 @@ public class Item extends Product {
         return this.keywords.contains(userKeyword);
     }
 
-    // Danechka????
     public Item(String type, double price, String color, String print, String origin) {
         super(type, price);
 
         this.id = idIterator;
 
-        this.type = type;
         this.price = price;
         this.color = color;
         this.print = print;
@@ -50,6 +48,16 @@ public class Item extends Product {
     public void setOrigin(String origin) {
         this.origin = origin;
     }
+
+    public void setStyle(String style) { this.style = style; }
+
+    public String getColor(){ return this.color; }
+
+    public String getPrint(){ return this.print; }
+
+    public String getOrigin() { return origin; }
+
+    public String getStyle() { return style; }
 
     @Override
     public int getId() {

@@ -1,8 +1,8 @@
 package com.company;
 
 public class Account {
-    private String login;
-    private String password;
+    private final String login;
+    private final String password;
 
     public Account(String login, String password) {
         this.login = login;
@@ -15,13 +15,5 @@ public class Account {
 
     public String getPassword() {
         return password;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

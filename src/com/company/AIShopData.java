@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 public class AIShopData {
     Scanner scanner = new Scanner(System.in);
-    private List<Account> admins = new ArrayList<>();
-    private List<Account> users = new ArrayList<>();
+    private final List<Account> admins = new ArrayList<>();
+    private final List<Account> users = new ArrayList<>();
     AIShop aiShop;
 
     public AIShopData(AIShop aiShop) {
@@ -16,26 +16,29 @@ public class AIShopData {
     }
 
     public void programManagement() {
+        String[] input;
+        int option;
         while (true) {
             System.out.println("Welcome to the AI Shop system! Choose an option: 1-registration, 2-login, 3-exit");
-            int option = Integer.parseInt(scanner.nextLine());
+
+            input = scanner.nextLine().split(" ");
+            option = -1;
+
+            if (input.length == 1 && input[0].length() == 1 && 48 < input[0].charAt(0) && input[0].charAt(0) < 57) {
+                option = Integer.parseInt(input[0]);
+            }
 
             switch(option) {
-                case 1 -> {
-                    Registration();
-                    return;
-                }
+                case 1 -> registration();
                 case 2 -> {
-                    LogIn();
+                    logIn();
                     return;
                 }
                 case 3 -> {
                     System.out.println("Thank you for visiting our AIShop!");
                     return;
                 }
-                default -> {
-                    System.out.println("This option does not exist: try again");
-                }
+                default -> System.out.println("This option does not exist: try again");
             }
         }
     }
@@ -45,7 +48,7 @@ public class AIShopData {
         admins.add(new Admin("DeputyAdmin", "11111111"));
     }
 
-    public void Registration() {
+    public void registration() {
         boolean end = false;
         while (!end) {
             System.out.println("Enter your login");
@@ -64,12 +67,19 @@ public class AIShopData {
         }
     }
 
-    public void LogIn() {
-        boolean end = false;
+    public void logIn() {
+        String[] input;
         int option;
+        boolean end = false;
         while (!end) {
             System.out.println("Choose the type of your account: 1-Admin, 2-Customer, 3-return back");
-            option = Integer.parseInt(scanner.nextLine());
+
+            input = scanner.nextLine().split(" ");
+            option = -1;
+
+            if (input.length == 1 && input[0].length() == 1 && 48 < input[0].charAt(0) && input[0].charAt(0) < 57) {
+                option = Integer.parseInt(input[0]);
+            }
 
             switch (option) {
                 case 1 -> {
@@ -113,10 +123,18 @@ public class AIShopData {
     public void adminActionsMenu(Admin admin, AIShop aiShop) {
         System.out.println("You have successfully logged in!");
 
+        String[] input;
+        int option;
         boolean end = false;
         while (!end) {
             System.out.println("Choose an option, please: 1-log out, 2-manage the warehouse");
-            int option = Integer.parseInt(scanner.nextLine());
+
+            input = scanner.nextLine().split(" ");
+            option = -1;
+
+            if (input.length == 1 && input[0].length() == 1 && 48 < input[0].charAt(0) && input[0].charAt(0) < 57) {
+                option = Integer.parseInt(input[0]);
+            }
 
             switch (option) {
                 case 1 -> {
@@ -133,10 +151,18 @@ public class AIShopData {
     public void userActionsMenu(User user, AIShop aiShop) {
         System.out.println("You have successfully logged in!");
 
+        String[] input;
+        int option;
         boolean end = false;
         while (!end) {
             System.out.println("Choose an option, please: 1-log out, 2-assembly an order");
-            int option = Integer.parseInt(scanner.nextLine());
+
+            input = scanner.nextLine().split(" ");
+            option = -1;
+
+            if (input.length == 1 && input[0].length() == 1 && 48 < input[0].charAt(0) && input[0].charAt(0) < 57) {
+                option = Integer.parseInt(input[0]);
+            }
 
             switch (option) {
                 case 1 -> {

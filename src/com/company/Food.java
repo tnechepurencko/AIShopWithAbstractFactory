@@ -4,12 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Food extends Product {
-    private int id;
-    private String type;
-    private double price;
+    private final int id;
+    private final double price;
     private String kitchen;
-    private String origin;
-    private Set<String> keywords = new HashSet<>();
+    private String taste;
+    private final Set<String> keywords = new HashSet<>();
 
     /**
      * @param userKeyword : the keyword
@@ -24,7 +23,6 @@ public class Food extends Product {
 
         this.id = idIterator;
 
-        this.type = type;
         this.price = price;
         this.kitchen = kitchen;
 
@@ -36,6 +34,12 @@ public class Food extends Product {
     public Set<String> getKeywords() {
         return this.keywords;
     }
+
+    public String getKitchen() { return kitchen; }
+
+    public String getTaste() { return taste; }
+
+    public void setTaste(String taste) { this.taste = taste; }
 
     public double getPrice() {
         return this.price;
